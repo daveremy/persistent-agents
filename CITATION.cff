@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you refer to this work, please cite it as below."
+title: "Persistent Agents on Claude Code"
+type: report
+authors:
+  - family-names: Remy
+    given-names: Dave
+date-released: 2026-10-30
+license: CC-BY-4.0
+url: "https://github.com/daveremy/persistent-agents"
