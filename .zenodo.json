@@ -1,0 +1,12 @@
+{
+  "title": "Persistent Agents on Claude Code",
+  "upload_type": "publication",
+  "publication_type": "workingpaper",
+  "description": "A working note on running always-on personal agents with Claude Code alone: nine named agents, each an ordinary claude --agent session in a tmux window, kept alive by systemd on one Linux server and reachable through its own Telegram bot, with no agent framework. It covers the hardware, each agent's role, the infrastructure that had to be added (session continuity across restarts, scheduled jobs, routing between agents, memory, models and budget, safety gates), remote work, what went wrong over eight months, and a comparison with the hosted persistent agents released in the second half of 2026. Companion to Agent Scrum (doi:10.5281/zenodo.23771171).",
+  "creators": [{"name": "Remy, Dave", "affiliation": "Independent"}],
+  "license": "CC-BY-4.0",
+  "keywords": ["AI agents", "persistent agents", "Claude Code", "personal assistants", "multi-agent systems", "systemd"],
+  "related_identifiers": [{"identifier": "10.5281/zenodo.23771171", "relation": "isSupplementedBy", "scheme": "doi"}],
+  "version": "1.0",
+  "language": "eng"
+}
