@@ -117,8 +117,9 @@ svg .barw{fill:var(--warn)}
 
 <h1>Persistent Agents on Claude Code</h1>
 <p class="subtitle">If you already use Claude Code, you can run your own always-on personal agents with it. Why, what and how, from nine agents in daily use for eight months</p>
-<p class="byline">Dave Remy · Working note · 30 October 2026 · CC BY 4.0 · <a href="https://doi.org/10.5281/zenodo.23787645">doi:10.5281/zenodo.23787645</a></p>
+<p class="byline">Dave Remy · Working note · 30 October 2026, version 1.1 · CC BY 4.0 · <a href="https://doi.org/10.5281/zenodo.23787645">doi:10.5281/zenodo.23787645</a></p>
 <p class="pdflink"><a href="persistent-agents.pdf">PDF</a> · <a href="https://github.com/daveremy/persistent-agents">Repository and feedback</a></p>
+<p class="byline"><em>Updated 30 October 2026 (version 1.1): in-session scheduled tasks now survive a resumed session, and Claude Code's newer scheduling options are covered (section 4.4).</em></p>
 
 <div class="abstract">
 <span class="lbl">Abstract</span>
@@ -218,13 +219,14 @@ svg .barw{fill:var(--warn)}
 <p>The repository holds 44 skills (procedures any agent can run, such as logging a meal, triaging email or filing an issue) and 29 hooks. Hooks run before and after tool calls; they are the strongest rules we have, because they apply whether or not the model remembers them. They block outbound email and iMessage without my approval, block production database changes, keep a scheduled job to the tools it declared, stop an agent from spawning new work while it drains for a restart, and log every tool call to an audit file with credentials removed. MCP servers are scoped per agent: each agent gets a small configuration file, so the finance agent has the finance tools and the research agent has search tools, and neither carries the other's.</p>
 
 <h3>4.4 Scheduled work</h3>
-<p>Claude Code's own scheduled tasks live inside a session: they expire after seven days and vanish when the session restarts. That made them unreliable for anything that had to happen on a given day. Scheduled work now runs outside the sessions:</p>
+<p>Claude Code's own scheduled tasks live inside a session. When we moved scheduled work out of the sessions, they vanished when a session restarted. That is no longer true: on Claude Code 2.1.314, a recurring task survived an exit and a resume with the same session ID and fired twice afterwards (one trial, 30 October 2026). They still expire after seven days, and a run that falls due while the session is down is not made up, so they remain unreliable for anything that has to happen on a given day. Scheduled work runs outside the sessions:</p>
 <ul>
 <li>A manifest, <code>config/jobs.tsv</code> (227 jobs), lists every scheduled job: owner, schedule, command. A script builds systemd timers from it and checks that nothing scheduled is missing from the manifest. The hub runs 190 user timers.</li>
 <li>Jobs that need judgement run through <code>dispatch.sh</code>, which starts a headless <code>claude -p</code> session for one job, with the model, tools and MCP servers named in that job's file (33 such files), and judges the run by its deliverable (the file or message it was meant to produce), not by its exit code. Such a job may escalate a finding to the agent that owns the domain.</li>
 <li>Jobs that need no judgement (a data sync, a health check) are plain scripts.</li>
 <li>Every job writes a row to a ledger, a monthly JSON-lines file, with what it checked and what it found. Without the ledger, a job that ran and found nothing looked the same as a job that never ran. In August that confusion caused a fleet-wide alarm, four agents changing their configuration and a retraction, in three hours.</li>
 </ul>
+<p>Claude Code now also offers cloud scheduled tasks, which run on Anthropic's infrastructure on a schedule, an API call or a GitHub event, and Desktop scheduled tasks, which run on your own machine. A cloud task starts from a fresh clone, runs at most hourly and can use only claude.ai connectors, so it cannot replace a job that reads the hub's data. Jobs that need only a GitHub repository could move to cloud tasks; we have not tried that yet.</p>
 
 <h3>4.5 Messages between agents</h3>
 <p>Agents talk to each other with Claude Code's SendMessage. Two kinds of traffic are kept apart. Routine questions go directly from one agent to another. Anything that crosses domains, or needs a record, goes to the chief-of-staff agent, which writes it to a daily signals file and forwards it. Each such message carries an ID minted by the sender, so a retry is recognised and not delivered twice. If the router cannot be reached, the sender appends the same line to the signals file, and an hourly sweep delivers it.</p>
@@ -264,7 +266,7 @@ svg .barw{fill:var(--warn)}
 <thead><tr><th>Problem</th><th>What we added</th></tr></thead>
 <tbody>
 <tr><td>A restart or a cleared context loses the agent's working state</td><td>A handoff document per agent, written before a restart and adopted after it; a drain step that stops new subagents before a handoff; session IDs pinned in the wrapper</td></tr>
-<tr><td>In-session scheduled tasks expire after seven days and die with the session</td><td>A job manifest (227 jobs) compiled to systemd timers; scheduled work runs as short headless Claude Code jobs, each declaring the tools it may use</td></tr>
+<tr><td>In-session scheduled tasks expire after seven days (and, until recently, died with the session)</td><td>A job manifest (227 jobs) compiled to systemd timers; scheduled work runs as short headless Claude Code jobs, each declaring the tools it may use</td></tr>
 <tr><td>Nine agents messaging each other with no record</td><td>All cross-domain messages go through the chief-of-staff agent, which records them in a daily signals file; each message carries an ID so retries are not delivered twice</td></tr>
 <tr><td>A job that ran and found nothing looks the same as a job that never ran</td><td>A ledger: every scheduled job writes a row with what it checked and what it found</td></tr>
 <tr><td>Notifications on my phone while I am at the terminal</td><td>A presence check that measures keyboard activity on attached tmux clients</td></tr>
@@ -351,6 +353,7 @@ svg .barw{fill:var(--warn)}
 <li><strong>Overlap with Claude Duet.</strong> Untested. Duet is waitlisted, and we have not run it beside this setup.</li>
 <li><strong>Single points of failure.</strong> One server, one login token shared by every session, and one person who can approve gated actions.</li>
 <li><strong>Remote use.</strong> The Claude Code desktop app is not yet part of the setup.</li>
+<li><strong>Cloud scheduled tasks.</strong> Not yet tried for the jobs that need only a GitHub repository.</li>
 </ul>
 
 <p class="disclose"><em>Created in collaboration with AI.</em></p>
