@@ -5,6 +5,7 @@ type: report
 authors:
   - family-names: Remy
     given-names: Dave
+doi: "10.5281/zenodo.23787645"
 date-released: 2026-10-30
 license: CC-BY-4.0
 url: "https://github.com/daveremy/persistent-agents"

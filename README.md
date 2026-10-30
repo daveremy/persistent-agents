@@ -1,5 +1,7 @@
 # Persistent Agents on Claude Code
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23787645.svg)](https://doi.org/10.5281/zenodo.23787645)
+
 A working note on running always-on personal agents with Claude Code alone: nine named agents,
 each an ordinary `claude --agent` session in a tmux window, kept alive by systemd and reachable
 through its own Telegram bot. There is no agent framework between the person and Claude Code.
