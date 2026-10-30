@@ -7,6 +7,8 @@ each an ordinary `claude --agent` session in a tmux window, kept alive by system
 through its own Telegram bot. There is no agent framework between the person and Claude Code.
 
 **Read it:** [web](https://daveremy.github.io/persistent-agents/) · [PDF](docs/persistent-agents.pdf) · [source](docs/index.html)
+
+**Short on time?** [Deck PDF, 14 slides](docs/persistent-agents-deck.pdf)
 · 30 October 2026
 
 ## What it covers
