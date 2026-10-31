@@ -117,9 +117,9 @@ svg .barw{fill:var(--warn)}
 
 <h1>Persistent Agents on Claude Code</h1>
 <p class="subtitle">If you already use Claude Code, you can run your own always-on personal agents with it. Why, what and how, from nine agents in daily use for eight months</p>
-<p class="byline">Dave Remy · Working note · 30 October 2026, version 1.1 · CC BY 4.0 · <a href="https://doi.org/10.5281/zenodo.23787645">doi:10.5281/zenodo.23787645</a></p>
+<p class="byline">Dave Remy · Working note · 30 October 2026, version 1.2 · CC BY 4.0 · <a href="https://doi.org/10.5281/zenodo.23787645">doi:10.5281/zenodo.23787645</a></p>
 <p class="pdflink"><a href="persistent-agents.pdf">PDF</a> · <a href="https://github.com/daveremy/persistent-agents">Repository and feedback</a></p>
-<p class="byline"><em>Updated 30 October 2026 (version 1.1): in-session scheduled tasks now survive a resumed session, and Claude Code's newer scheduling options are covered (section 4.4).</em></p>
+<p class="byline"><em>Updated 30 October 2026 (version 1.2): Claude Code Projects added to the comparison (section 9). Version 1.1: in-session scheduled tasks now survive a resumed session, and Claude Code's newer scheduling options are covered (section 4.4).</em></p>
 
 <div class="abstract">
 <span class="lbl">Abstract</span>
@@ -327,23 +327,25 @@ svg .barw{fill:var(--warn)}
 
 <h2><span class="n">9</span>Comparison with hosted persistent agents</h2>
 
-<p>Several hosted persistent agents appeared in the second half of 2026. Table 5 compares them with this setup on the points that mattered most to us. Details for the hosted products come from their documentation and press coverage as of October 2026; Claude Duet is a research preview, and its details may change.</p>
+<p>Several hosted persistent agents appeared in the second half of 2026. Table 5 compares them with this setup on the points that mattered most to us. Details for the hosted products come from their documentation and press coverage as of October 2026; Claude Duet is a research preview and Projects is a public beta, so their details may change.</p>
 
-<div class="tw"><table>
-<thead><tr><th></th><th>This setup</th><th>OpenClaw</th><th>Grok Bot (xAI)</th><th>Muse (Meta)</th><th>Claude Duet (Anthropic)</th></tr></thead>
+<div class="tw"><table style="font-size:.76rem">
+<thead><tr><th></th><th>This setup</th><th>OpenClaw</th><th>Grok Bot (xAI)</th><th>Muse (Meta)</th><th>Claude Duet (Anthropic)</th><th>Claude Code Projects (Anthropic)</th></tr></thead>
 <tbody>
-<tr><td>Released</td><td>March 2026 (private)</td><td>January 2026</td><td>August 2026, beta</td><td>September 2026</td><td>October 2026, research preview</td></tr>
-<tr><td>Where it runs</td><td>My Linux server</td><td>Your machine</td><td>One cloud VM per user</td><td>One cloud VM per user</td><td>One cloud VM per user</td></tr>
-<tr><td>Agents</td><td>Nine independent sessions, each with its own definition and permissions</td><td>One assistant with skills</td><td>Several named bots sharing one VM, files and browser</td><td>One agent</td><td>One agent</td></tr>
-<tr><td>How it runs on its own</td><td>systemd timers and headless jobs</td><td>Heartbeat and schedules</td><td>Routines on schedules or events</td><td>Long-running tasks</td><td>Polls connected accounts every few hours</td></tr>
-<tr><td>Approval for sends, payments, deletion</td><td>Hooks and written rules, maintained by us</td><td>Depends on configuration</td><td>Built in</td><td>Built in</td><td>Built in</td></tr>
-<tr><td>Who maintains it</td><td>Me and the agents</td><td>Me</td><td>xAI and Cursor</td><td>Meta</td><td>Anthropic</td></tr>
-<tr><td>Can change its own code</td><td>Yes, through git</td><td>Its skills are editable files</td><td>No</td><td>No</td><td>No</td></tr>
+<tr><td>Released</td><td>March 2026 (private)</td><td>January 2026</td><td>August 2026, beta</td><td>September 2026</td><td>October 2026, research preview</td><td>September 2026, public beta</td></tr>
+<tr><td>Where it runs</td><td>My Linux server</td><td>Your machine</td><td>One cloud VM per user</td><td>One cloud VM per user</td><td>One cloud VM per user</td><td>Cloud sessions, or your machine through Remote Control</td></tr>
+<tr><td>Agents</td><td>Nine independent sessions, each with its own definition and permissions</td><td>One assistant with skills</td><td>Several named bots sharing one VM, files and browser</td><td>One agent</td><td>One agent</td><td>A coordinator that starts a worker per task, with shared memory</td></tr>
+<tr><td>How it runs on its own</td><td>systemd timers and headless jobs</td><td>Heartbeat and schedules</td><td>Routines on schedules or events</td><td>Long-running tasks</td><td>Polls connected accounts every few hours</td><td>Workers continue after you leave; scheduled tasks</td></tr>
+<tr><td>Approval for sends, payments, deletion</td><td>Hooks and written rules, maintained by us</td><td>Depends on configuration</td><td>Built in</td><td>Built in</td><td>Built in</td><td>Auto mode; repository hooks not applied in the cloud</td></tr>
+<tr><td>Who maintains it</td><td>Me and the agents</td><td>Me</td><td>xAI and Cursor</td><td>Meta</td><td>Anthropic</td><td>Anthropic</td></tr>
+<tr><td>Can change its own code</td><td>Yes, through git</td><td>Its skills are editable files</td><td>No</td><td>No</td><td>No</td><td>No</td></tr>
 </tbody>
 </table></div>
-<p class="cap">Table 5. This setup compared with OpenClaw and three hosted persistent agents, October 2026.</p>
+<p class="cap">Table 5. This setup compared with OpenClaw, three hosted persistent agents and Claude Code Projects, October 2026.</p>
 
 <p>The hosted products remove most of sections 4 and 5: no server, no restart handling, no scheduler and no token races. That is a large saving, and for most people it is the better choice. What they do not offer is the integration. In this setup the agents that manage my email and finances run on the same tool, in the same repository, as the agents that write and ship my software. The research agent can file an issue that the engineering agent plans into a sprint the same day. When a gate fails, the fix is a commit that I can read and revert. None of the hosted products let a user change the agent's own machinery that way. The two approaches already meet in one place: self-contained development work runs in Anthropic's cloud sessions (section 4.7), while everything that needs my machines or my data stays on the hub.</p>
+
+<p>Claude Code Projects is not a personal agent, but it is the closest hosted match to the engineering side of this setup. You give one coordinating conversation a goal, and it starts worker sessions in parallel, each on its own branch, sharing the project’s instructions and memory; the work continues after you close the laptop and can be steered from a phone. Its cloud threads load a repository’s <code>CLAUDE.md</code> but not its skills, hooks, permission rules or MCP configuration, so the gates this setup depends on would not run there. A thread can instead run on your own machine through Remote Control, where they do. Projects draws on the same plan limits as other Claude Code sessions and, by its own documentation, uses them faster, so it would not ease the weekly limit that constrains us. We have not tried it.</p>
 
 <p>I am ready to adopt a hosted approach for any part where it does the job better, and the parts most likely to move are the ones where the hosted product has an advantage we cannot match: its own cloud machine with a persistent browser, and connectors we would otherwise build. Claude Duet is the closest match, because it uses the same models and the same subscription. I do not yet know whether it will replace parts of this setup, run beside it, or eventually merge with it.</p>
 
@@ -353,6 +355,7 @@ svg .barw{fill:var(--warn)}
 <li><strong>Overlap with Claude Duet.</strong> Untested. Duet is waitlisted, and we have not run it beside this setup.</li>
 <li><strong>Single points of failure.</strong> One server, one login token shared by every session, and one person who can approve gated actions.</li>
 <li><strong>Remote use.</strong> The Claude Code desktop app is not yet part of the setup.</li>
+<li><strong>Claude Code Projects.</strong> Not tried. Its cloud threads skip the hooks and skills this setup relies on.</li>
 <li><strong>Cloud scheduled tasks.</strong> Not yet tried for the jobs that need only a GitHub repository.</li>
 </ul>
 

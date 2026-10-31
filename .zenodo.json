@@ -7,6 +7,6 @@
   "license": "CC-BY-4.0",
   "keywords": ["AI agents", "persistent agents", "Claude Code", "personal assistants", "multi-agent systems", "systemd"],
   "related_identifiers": [{"identifier": "10.5281/zenodo.23771171", "relation": "isSupplementedBy", "scheme": "doi"}],
-  "version": "1.1",
+  "version": "1.2",
   "language": "eng"
 }
