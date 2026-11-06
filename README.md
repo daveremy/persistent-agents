@@ -1,6 +1,8 @@
 # Persistent Agents on Claude Code
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23787645.svg)](https://doi.org/10.5281/zenodo.23787645)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23787644.svg)](https://doi.org/10.5281/zenodo.23787644)
+
+Part of **Working Agents**, a living series of working papers on operating AI agents and agent software development: [the plan and index](https://daveremy.github.io/working-agents/) · [all papers on Zenodo](https://zenodo.org/communities/working-agents).
 
 A working note on running always-on personal agents with Claude Code alone: nine named agents,
 each an ordinary `claude --agent` session in a tmux window, kept alive by systemd and reachable
