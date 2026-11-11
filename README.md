@@ -28,7 +28,14 @@ try the approach. It is not a product or a framework, and there is nothing to in
 corrections and accounts of your own setup are welcome as issues.
 
 Companion paper: [Agent Scrum](https://daveremy.github.io/agent-scrum/), on how the engineering
-agents run two-hour sprints.
+agents run sprints.
+
+## Versions
+
+- 1.3, 11 November 2026: the chief-of-staff agent runs Haiku 5.5; session transcripts were deleted after 30 days until 10 November 2026; counts of skills, hooks and login sites dated; other changed facts corrected (sprint length, tmux windows, job and timer count dates, in-session scheduled tasks, handoff documents, the cloud-credit grant, the Claude Duet entry); American spelling.
+- 1.2, 30 October 2026: Claude Code Projects added to the comparison.
+- 1.1, 30 October 2026: in-session scheduled tasks survive a resume; Claude Code's newer scheduling options covered.
+- 1.0, 30 October 2026: first release.
 
 ## License
 
