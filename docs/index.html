@@ -117,15 +117,22 @@ svg .barw{fill:var(--warn)}
 
 <h1>Persistent Agents on Claude Code</h1>
 <p class="subtitle">If you already use Claude Code, you can run your own always-on personal agents with it. Why, what and how, from nine agents in daily use for eight months</p>
-<p class="byline">Dave Remy · Working note · 11 November 2026, version 1.3 · CC BY 4.0 · <a href="https://doi.org/10.5281/zenodo.23787645">doi:10.5281/zenodo.23787645</a></p>
+<p class="byline">Dave Remy · Working note · 17 November 2026, version 1.4 · CC BY 4.0 · <a href="https://doi.org/10.5281/zenodo.23787645">doi:10.5281/zenodo.23787645</a></p>
 <p class="pdflink"><a href="persistent-agents.pdf">PDF</a> · <a href="https://github.com/daveremy/persistent-agents">Repository and feedback</a></p>
-<p class="byline"><em>Updated 11 November 2026 (version 1.3); the changes are listed below. Version 1.2 (30 October 2026): Claude Code Projects added to the comparison (section 9). Version 1.1: in-session scheduled tasks now survive a resumed session, and Claude Code's newer scheduling options are covered (section 4.4).</em></p>
+<p class="byline"><em>Updated 17 November 2026 (version 1.4); the changes are listed below. Version 1.3 (11 November 2026): corrections of facts. Version 1.2 (30 October 2026): Claude Code Projects added to the comparison (section 9). Version 1.1: in-session scheduled tasks now survive a resumed session, and Claude Code's newer scheduling options are covered (section 4.4).</em></p>
 
 <div class="abstract">
 <span class="lbl">Abstract</span>
 <p>In the second half of 2026, xAI, Meta and Anthropic each released an always-on personal agent: Grok Bot, Muse and Claude Duet. This note argues that an engineer who already uses Claude Code can build the same kind of system with Claude Code alone, and explains why, what and how from one that has run for eight months. Since March 2026, Claude Code sessions have run continuously as named agents for one person's life and work; there have been nine since May, and since August they have run on a dedicated Linux server. They are a chief of staff, and agents for health, finance, communications, engineering, operations, customer support, research and marketing. Each agent is an ordinary <code>claude --agent</code> session in a tmux window, kept alive by systemd, reachable through its own Telegram bot, and defined by a markdown file in a git repository. No agent framework sits between the person and Claude Code. The cost of that choice is the infrastructure we had to add ourselves: session continuity across restarts, scheduled jobs, routing between agents, presence detection, budget control and safety gates. As of 28 October 2026 the repository had 3,761 commits. This note describes each agent, the infrastructure, the failures that shaped it, the use of Telegram and remote work, and how it compares with the hosted persistent agents released in the second half of 2026 (Grok Bot, Meta's Muse, Anthropic's Claude Duet). We do not yet know where this setup and Claude Duet will overlap.</p>
 </div>
 <p class="kw"><span class="lbl">Keywords</span>persistent agents, Claude Code, multi-agent systems, OpenClaw, personal automation, always-on agents</p>
+
+<h2>Changes in version 1.4</h2>
+<ul>
+<li>A new section 11 places each section of this note in the terms of WARM, the Working Agents Reference Model, and says what this note does not cover.</li>
+<li>Section 9 now points to WARM's reading of ten vendor products for a fuller comparison.</li>
+<li>No other text changed.</li>
+</ul>
 
 <h2>Changes in version 1.3</h2>
 <ul>
@@ -361,6 +368,8 @@ svg .barw{fill:var(--warn)}
 
 <p>I am ready to adopt a hosted approach for any part where it does the job better, and the parts most likely to move are the ones where the hosted product has an advantage we cannot match: its own cloud machine with a persistent browser, and connectors we would otherwise build. Claude Duet is the closest match, because it uses the same models and the same subscription. I do not yet know whether it will replace parts of this setup, run beside it, or eventually merge with it.</p>
 
+<p>WARM, the Working Agents Reference Model [W], reads ten vendor products against 25 platform services from their documentation (section 11).</p>
+
 <h2><span class="n">10</span>What is open</h2>
 <ul>
 <li><strong>Maintenance.</strong> The additions in sections 4 and 5 are real software that has to be maintained. We have not measured how much of each week goes into the infrastructure rather than the work it supports.</li>
@@ -370,6 +379,29 @@ svg .barw{fill:var(--warn)}
 <li><strong>Claude Code Projects.</strong> Not tried. Its cloud threads skip the hooks and skills this setup relies on.</li>
 <li><strong>Cloud scheduled tasks.</strong> Not yet tried for the jobs that need only a GitHub repository.</li>
 </ul>
+
+<h2><span class="n">11</span>This setup in WARM's terms</h2>
+<p>This note describes the setup in its own words. A later paper, WARM, the Working Agents Reference Model [W], names the parts of systems like this one: five layers (people, domains, a platform, infrastructure and providers) and a platform of 25 services in six groups. WARM was drawn first from this setup, and it maps 688 of the setup's 849 inventory entries to a single service or layer. Table 6 places each section of this note in WARM's terms, so that a reader can compare this setup with the other platforms and products WARM describes.</p>
+<div class="tw"><table>
+<thead><tr><th>Section of this note</th><th>What it covers</th><th>WARM layer or service</th></tr></thead>
+<tbody>
+<tr><td>1 Why build it</td><td>The aim and the people who direct the work</td><td>People</td></tr>
+<tr><td>2 Hardware; 4.8 Other machines and services</td><td>Compute, machines and outside services</td><td>Infrastructure; Providers; Secrets (Governance)</td></tr>
+<tr><td>3 The agents</td><td>One persistent agent for each area of work: health, finance, communications, software, operations, support, research, marketing</td><td>Domains and their agents; agent definitions in the Registry</td></tr>
+<tr><td>4.1 The tmux session; 4.2 Start, restart and recovery</td><td>Keeping nine sessions alive and recovering them</td><td>Harness, Sessions, Lifecycle (Runtime); Reliability (Operations)</td></tr>
+<tr><td>4.3 Definitions, skills, hooks and MCP servers</td><td>What each agent is told and what it can call</td><td>Registry, Tools (Capabilities); Policy (Governance)</td></tr>
+<tr><td>4.4 Scheduled work</td><td>The job manifest and headless jobs</td><td>Scheduling, Tasks (Runtime)</td></tr>
+<tr><td>4.5 Messages between agents</td><td>One agent routes and records messages</td><td>Messaging, Orchestration (Interaction)</td></tr>
+<tr><td>4.6 Memory</td><td>Handoffs, the shared memory folder</td><td>Memory, Retrieval (Knowledge)</td></tr>
+<tr><td>4.7 Models and budget</td><td>Which model each agent runs and the budget state</td><td>Models (Capabilities); Providers</td></tr>
+<tr><td>6 Telegram; 7 Working remotely</td><td>How a person reaches the agents</td><td>Channels (Interaction)</td></tr>
+<tr><td>5 What we had to add (sends blocked by hooks, permission denials)</td><td>Actions held for a person, and what agents may not do</td><td>Approvals, Policy (Governance)</td></tr>
+<tr><td>5 (the ledger); 8 What went wrong</td><td>Seeing what ran, and learning from failures</td><td>Observability, Reliability, Improvement (Operations)</td></tr>
+</tbody></table></div>
+<p class="cap">Table 6. The sections of this note placed in WARM's terms, as of 17 November 2026. Service names are WARM's; the group follows in parentheses.</p>
+<p>Two things follow. First, this note describes the platform side of the setup: how agents run, talk to people and each other, remember, and are held back. It says little about the domain side, which WARM treats as its own layer. WARM's mapping found that no area of work in this setup has a written charter. A record of which area is accountable for each responsibility (WARM's Directory) was started on 11 November 2026, with 15 responsibilities, because of that mapping. Second, section 9 compares this setup with the hosted persistent agents released in the second half of 2026. WARM reads ten vendor products against all 25 services from their documentation, with written criteria and second readers (WARM, section 5.5), and is the better source for that comparison.</p>
+<p>This setup is being refactored toward WARM. A later version of this note may describe it in WARM's terms, before and after, with the refactoring's measures.</p>
+<p class="refs">[W] Remy, D. <em>WARM: the Working Agents Reference Model.</em> Working paper, version 0.1.1, 2026. <a href="https://doi.org/10.5281/zenodo.24238372">doi:10.5281/zenodo.24238372</a>. <a href="https://daveremy.github.io/warm/">daveremy.github.io/warm</a></p>
 
 <p class="disclose"><em>Created in collaboration with AI.</em></p>
 </article>

@@ -6,7 +6,7 @@ authors:
   - family-names: Remy
     given-names: Dave
 doi: "10.5281/zenodo.23787644"
-version: "1.3"
-date-released: 2026-11-11
+version: "1.4"
+date-released: 2026-11-17
 license: CC-BY-4.0
 url: "https://github.com/daveremy/persistent-agents"

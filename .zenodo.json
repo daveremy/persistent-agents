@@ -23,10 +23,15 @@
       "identifier": "10.5281/zenodo.23771171",
       "relation": "isSupplementedBy",
       "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.24238372",
+      "relation": "isReferencedBy",
+      "scheme": "doi"
     }
   ],
-  "version": "1.3",
-  "publication_date": "2026-11-11",
+  "version": "1.4",
+  "publication_date": "2026-11-17",
   "language": "eng",
   "communities": [
     {
